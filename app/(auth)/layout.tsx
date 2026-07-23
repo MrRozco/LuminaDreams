@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Moon, Stars } from "lucide-react";
 import { StarfieldBackground } from "@/components/starfield/StarfieldBackground";
+import { APP_NAME } from "@/lib/constants";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -15,7 +16,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-6xl flex-col items-center justify-center px-6 py-10">
         <Link href="/" className="mb-8 inline-flex items-center gap-2 text-cosmic-gold hover:text-cosmic-gold-light">
           <Moon className="h-5 w-5" aria-hidden="true" />
-          <span className="font-script text-2xl italic">Lumina Dreams</span>
+          <span className="font-script text-2xl italic">{APP_NAME}</span>
         </Link>
 
         {children}

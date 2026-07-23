@@ -1,4 +1,4 @@
--- Abuse protection patch for existing Lumina Dreams databases
+-- Abuse protection patch for existing LucidDreamers databases
 -- Run once in Supabase SQL Editor after schema upgrade.
 
 ALTER TABLE public.profiles

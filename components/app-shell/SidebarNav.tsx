@@ -7,6 +7,7 @@ import { Moon } from "lucide-react";
 import { APP_NAV_ITEMS } from "@/components/app-shell/nav";
 import { LogoutButton } from "@/components/auth/LogoutButton";
 import { signOut } from "@/lib/actions/auth";
+import { APP_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 export function SidebarNav() {
@@ -28,10 +29,7 @@ export function SidebarNav() {
         <div className="flex flex-1 flex-col justify-center px-1">
           <Link href="/dashboard" className="mb-6 inline-flex items-center gap-2 px-1 text-cosmic-gold">
             <Moon className="h-7 w-7 drop-shadow-[0_0_14px_rgba(212,175,119,0.95)]" aria-hidden="true" />
-            <span className="font-script text-3xl leading-6 italic drop-shadow-[0_0_12px_rgba(212,175,119,0.45)]">
-              <span className="block">Lumina</span>
-              <span className="block">Dreams</span>
-            </span>
+            <span className="font-script text-3xl leading-6 italic drop-shadow-[0_0_12px_rgba(212,175,119,0.45)]">{APP_NAME}</span>
           </Link>
 
           <nav className="flex flex-col gap-2 overflow-y-auto">

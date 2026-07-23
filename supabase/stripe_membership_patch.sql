@@ -1,4 +1,4 @@
--- Stripe membership patch for existing Lumina Dreams databases
+-- Stripe membership patch for existing LucidDreamers databases
 -- Run once in Supabase SQL Editor.
 
 ALTER TABLE public.profiles

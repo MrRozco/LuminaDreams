@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { APP_NAME } from "@/lib/constants";
 
 /* ─── Google Fonts ─────────────────────────────────────────────── */
 
@@ -32,8 +33,8 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "Lumina Dreams",
-    template: "%s · Lumina Dreams",
+    default: APP_NAME,
+    template: `%s · ${APP_NAME}`,
   },
   description:
     "AI-powered cosmic dream journal. Record your dreams, receive deep AI interpretation, and uncover the patterns of your subconscious mind.",
@@ -46,22 +47,22 @@ export const metadata: Metadata = {
     "dream meanings",
     "AI journaling",
   ],
-  authors: [{ name: "Lumina Dreams" }],
-  creator: "Lumina Dreams",
+  authors: [{ name: APP_NAME }],
+  creator: APP_NAME,
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"
   ),
   openGraph: {
     type: "website",
     locale: "en_US",
-    title: "Lumina Dreams",
+    title: APP_NAME,
     description:
       "AI-powered cosmic dream journal. Interpret your dreams, visualize their imagery, and understand your mind.",
-    siteName: "Lumina Dreams",
+    siteName: APP_NAME,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lumina Dreams",
+    title: APP_NAME,
     description:
       "AI-powered cosmic dream journal. Interpret your dreams, visualize their imagery, and understand your mind.",
   },

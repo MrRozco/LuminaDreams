@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { APP_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description: "Terms governing your use of Lumina Dreams.",
+  description: `Terms governing your use of ${APP_NAME}.`,
 };
 
 export default function TermsPage() {
@@ -21,7 +22,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-lg font-semibold text-foreground">1. Acceptance of terms</h2>
             <p className="mt-2">
-              By accessing or using Lumina Dreams, you agree to these terms and our Privacy Policy. If you do not
+              By accessing or using {APP_NAME}, you agree to these terms and our Privacy Policy. If you do not
               agree, do not use the service.
             </p>
           </section>
@@ -29,7 +30,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-lg font-semibold text-foreground">2. Service description</h2>
             <p className="mt-2">
-              Lumina Dreams provides dream journaling, AI-generated interpretations, generated media, and pattern
+              {APP_NAME} provides dream journaling, AI-generated interpretations, generated media, and pattern
               insights. Features may evolve, be modified, or be discontinued over time.
             </p>
           </section>
@@ -62,14 +63,14 @@ export default function TermsPage() {
           <section>
             <h2 className="text-lg font-semibold text-foreground">6. Limitation of liability</h2>
             <p className="mt-2">
-              To the fullest extent permitted by law, Lumina Dreams is provided as is without warranties, and liability
+              To the fullest extent permitted by law, {APP_NAME} is provided as is without warranties, and liability
               is limited for indirect, incidental, or consequential damages.
             </p>
           </section>
 
           <section>
             <h2 className="text-lg font-semibold text-foreground">7. Contact</h2>
-            <p className="mt-2">Questions about these terms: legal@luminadreams.app</p>
+            <p className="mt-2">Questions about these terms: legal@luciddreamers.app</p>
           </section>
         </div>
       </div>

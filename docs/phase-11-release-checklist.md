@@ -1,6 +1,6 @@
 # Phase 11 Release Checklist
 
-This checklist covers the remaining non-Stripe go-live work for Lumina Dreams.
+This checklist covers the remaining non-Stripe go-live work for LucidDreamers.
 
 ## 11.1 Testing Baseline
 

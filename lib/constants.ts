@@ -1,11 +1,11 @@
 /**
- * Application-wide constants for Lumina Dreams.
+ * Application-wide constants for LucidDreamers.
  * Import from here rather than hard-coding magic values across the codebase.
  */
 
 /* ─── App identity ──────────────────────────────────────────── */
 
-export const APP_NAME = "Lumina Dreams" as const;
+export const APP_NAME = "LucidDreamers" as const;
 export const APP_TAGLINE =
   "AI-powered cosmic dream journal. Record, interpret, and understand your dreams.";
 export const APP_URL =

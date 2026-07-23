@@ -1,4 +1,4 @@
-﻿# 🌙 Lumina Dreams
+﻿# 🌙 LucidDreamers
 
 > **AI-powered cosmic dream journal.** Record your dreams, receive deep psychological and symbolic AI interpretations, generate dream imagery and short videos, and uncover the hidden patterns of your subconscious mind.
 
@@ -45,8 +45,8 @@
 ### 1 — Clone & install
 
 ```bash
-git clone <your-repo-url> lumina-dreams
-cd lumina-dreams
+git clone <your-repo-url> luciddreamers
+cd luciddreamers
 npm install
 ```
 
@@ -120,7 +120,7 @@ npm run test:coverage
 ## 📁 Project Structure
 
 ```
-lumina-dreams/
+luciddreamers/
 ├── app/
 │   ├── globals.css         # Tailwind v4 + cosmic design tokens
 │   ├── layout.tsx          # Root layout (fonts, ThemeProvider)

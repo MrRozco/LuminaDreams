@@ -11,9 +11,10 @@ import Image from "next/image";
 import { Moon, Sparkles, ArrowRight, Brain, Zap, Eye, BookOpen, Film, Database, Search } from "lucide-react";
 import { StarfieldBackground } from "@/components/starfield/StarfieldBackground";
 import { PricingCards } from "@/components/marketing/PricingCards";
+import { APP_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Lumina Dreams — AI Dream Journal",
+  title: `${APP_NAME} — AI Dream Journal`,
   description:
     "Record your dreams. Receive AI-powered interpretations. Discover the patterns of your subconscious.",
 };
@@ -118,7 +119,7 @@ export default function LandingPage() {
             <div className="flex items-center justify-center w-9 h-9 rounded-full bg-linear-to-br from-cosmic-purple/30 to-cosmic-teal/20 border border-cosmic-purple/35 glow-purple">
               <Moon className="w-4.5 h-4.5 text-cosmic-gold" strokeWidth={1.5} aria-hidden="true" />
             </div>
-            <span className="font-script text-xl italic text-cosmic-gold tracking-wide">Lumina Dreams</span>
+            <span className="font-script text-xl italic text-cosmic-gold tracking-wide">{APP_NAME}</span>
           </div>
 
           <div className="hidden md:flex items-center gap-7">
@@ -136,7 +137,7 @@ export default function LandingPage() {
             </Link>
             <Link href="/auth/signup"
               className="flex items-center gap-1.5 px-5 py-2 rounded-full bg-linear-to-r from-cosmic-nebula to-cosmic-purple text-white text-sm font-medium tracking-wide transition-all duration-300 hover:opacity-90 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cosmic-purple focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              aria-label="Create your Lumina Dreams account">
+              aria-label={`Create your ${APP_NAME} account`}>
               Get started
               <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
             </Link>
@@ -152,7 +153,7 @@ export default function LandingPage() {
           </div>
 
           <h1 id="hero-heading" className="font-script text-7xl sm:text-8xl md:text-9xl font-bold text-gradient-gold leading-[0.95] tracking-tight">
-            Lumina<br />Dreams
+            Lucid<br />Dreamers
           </h1>
 
           <p className="mt-8 text-lg sm:text-xl md:text-2xl text-foreground/65 font-light leading-relaxed max-w-2xl tracking-wide">
@@ -253,7 +254,7 @@ export default function LandingPage() {
               {
                 step: "02",
                 title: "Receive interpretation",
-                text: "Lumina uses AI to surface symbols, emotional themes, and cross-cultural meaning from your entry.",
+                text: "LucidDreamers uses AI to surface symbols, emotional themes, and cross-cultural meaning from your entry.",
               },
               {
                 step: "03",
@@ -290,10 +291,10 @@ export default function LandingPage() {
           <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <Moon className="w-4 h-4 text-cosmic-gold/70" strokeWidth={1.5} aria-hidden="true" />
-              <span className="font-script italic text-foreground/40 text-sm">Lumina Dreams</span>
+              <span className="font-script italic text-foreground/40 text-sm">{APP_NAME}</span>
             </div>
             <p className="text-xs text-foreground/30 text-center">
-              © {new Date().getFullYear()} Lumina Dreams. Explore your subconscious with care.
+              © {new Date().getFullYear()} {APP_NAME}. Explore your subconscious with care.
             </p>
             <div className="flex gap-6 text-xs text-foreground/35">
               <Link href="/privacy" className="hover:text-foreground/60 transition-colors">Privacy</Link>

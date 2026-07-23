@@ -8,6 +8,7 @@ import { useState } from "react";
 import { APP_NAV_ITEMS } from "@/components/app-shell/nav";
 import { LogoutButton } from "@/components/auth/LogoutButton";
 import { signOut } from "@/lib/actions/auth";
+import { APP_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 interface TopHeaderProps {
@@ -73,7 +74,7 @@ export function TopHeader({ userDisplayName }: TopHeaderProps) {
             >
               <div className="mb-6 inline-flex items-center gap-2 px-1 text-cosmic-gold">
                 <Moon className="h-5 w-5" aria-hidden="true" />
-                <span className="font-script text-2xl italic">Lumina Dreams</span>
+                <span className="font-script text-2xl italic">{APP_NAME}</span>
               </div>
 
               <nav className="space-y-1" aria-label="Mobile navigation">

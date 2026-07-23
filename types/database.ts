@@ -1,5 +1,5 @@
 /**
- * Database type definitions for Lumina Dreams.
+ * Database type definitions for LucidDreamers.
  *
  * These types are hand-written to match supabase/schema.sql exactly.
  * They are used as the generic parameter for all Supabase client calls,

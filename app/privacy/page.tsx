@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { APP_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "How Lumina Dreams collects, uses, and protects your data.",
+  description: `How ${APP_NAME} collects, uses, and protects your data.`,
 };
 
 export default function PrivacyPolicyPage() {
@@ -39,7 +40,7 @@ export default function PrivacyPolicyPage() {
           <section>
             <h2 className="text-lg font-semibold text-foreground">3. Third-party processors</h2>
             <p className="mt-2">
-              Lumina Dreams uses third-party infrastructure and API providers to operate the product, including
+              {APP_NAME} uses third-party infrastructure and API providers to operate the product, including
               Supabase for database, storage, and authentication, Stripe for billing, and AI providers for model
               responses and media generation.
             </p>
@@ -66,7 +67,7 @@ export default function PrivacyPolicyPage() {
           <section>
             <h2 className="text-lg font-semibold text-foreground">6. Contact</h2>
             <p className="mt-2">
-              For privacy requests, contact: privacy@luminadreams.app
+              For privacy requests, contact: privacy@luciddreamers.app
             </p>
           </section>
         </div>

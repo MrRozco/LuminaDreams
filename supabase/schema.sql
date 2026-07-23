@@ -1,5 +1,5 @@
 -- ============================================================
--- LUMINA DREAMS — Complete PostgreSQL Database Schema
+-- LUCIDDREAMERS — Complete PostgreSQL Database Schema
 -- ============================================================
 -- Run this entire file in the Supabase SQL Editor:
 --   Dashboard → SQL Editor → New query → paste → Run

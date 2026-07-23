@@ -1,5 +1,5 @@
 /**
- * Shared TypeScript types & interfaces for Lumina Dreams.
+ * Shared TypeScript types & interfaces for LucidDreamers.
  *
  * App-level types are defined here.  Raw database row types live in
  * @/types/database — this file imports and re-exports the ones that are
