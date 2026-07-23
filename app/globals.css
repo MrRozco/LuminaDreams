@@ -4,127 +4,357 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ============================================================
+   LUMINA DREAMS — Cosmic Design System (Tailwind v4 @theme)
+   ============================================================ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
+  /* ── Fonts ────────────────────────────────────────────── */
+  --font-sans:   var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-mono:   var(--font-geist-mono), ui-monospace, monospace;
+  --font-script: var(--font-playfair), "Georgia", serif;
+
+  /* ── Semantic color tokens (map to CSS vars) ─────────── */
+  --color-background:         var(--background);
+  --color-foreground:         var(--foreground);
+  --color-card:               var(--card);
+  --color-card-foreground:    var(--card-foreground);
+  --color-popover:            var(--popover);
   --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
+  --color-primary:            var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary:            var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted:              var(--muted);
+  --color-muted-foreground:   var(--muted-foreground);
+  --color-accent:             var(--accent);
+  --color-accent-foreground:  var(--accent-foreground);
+  --color-destructive:        var(--destructive);
+  --color-border:             var(--border);
+  --color-input:              var(--input);
+  --color-ring:               var(--ring);
+  --color-chart-1:            var(--chart-1);
+  --color-chart-2:            var(--chart-2);
+  --color-chart-3:            var(--chart-3);
+  --color-chart-4:            var(--chart-4);
+  --color-chart-5:            var(--chart-5);
+  --color-sidebar:                      var(--sidebar);
+  --color-sidebar-foreground:           var(--sidebar-foreground);
+  --color-sidebar-primary:              var(--sidebar-primary);
+  --color-sidebar-primary-foreground:   var(--sidebar-primary-foreground);
+  --color-sidebar-accent:               var(--sidebar-accent);
+  --color-sidebar-accent-foreground:    var(--sidebar-accent-foreground);
+  --color-sidebar-border:               var(--sidebar-border);
+  --color-sidebar-ring:                 var(--sidebar-ring);
+
+  /* ── Cosmic brand palette (constant, not theme-aware) ── */
+  --color-cosmic-deep:     #1a0f2e;   /* deepest background */
+  --color-cosmic-midnight: #0f172a;   /* near-black navy    */
+  --color-cosmic-dim:      #1e1433;   /* slightly lighter   */
+  --color-cosmic-slate:    #2d1f4f;   /* card surfaces      */
+  --color-cosmic-gold:     #d4af77;   /* warm gold accent   */
+  --color-cosmic-gold-light: #e8cb9a;
+  --color-cosmic-gold-dark:  #b8935a;
+  --color-cosmic-teal:     #67e8f9;   /* luminous cyan      */
+  --color-cosmic-purple:   #c084fc;   /* soft violet        */
+  --color-cosmic-nebula:   #7c3aed;   /* deep indigo-violet */
+  --color-cosmic-star:     #f8fafc;   /* star white         */
+
+  /* ── Border radii ─────────────────────────────────────── */
+  --radius-sm:  calc(var(--radius) * 0.6);
+  --radius-md:  calc(var(--radius) * 0.8);
+  --radius-lg:  var(--radius);
+  --radius-xl:  calc(var(--radius) * 1.4);
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* ── Custom animation shorthands ─────────────────────── */
+  --animate-twinkle:     twinkle 3s ease-in-out infinite;
+  --animate-float:       float 6s ease-in-out infinite;
+  --animate-shimmer:     shimmer 3s linear infinite;
+  --animate-glow-pulse:  glow-pulse 4s ease-in-out infinite;
+  --animate-cosmic-fade: cosmic-fade-in 0.6s ease-out forwards;
+  --animate-star-pulse:  star-pulse 4s ease-in-out infinite;
 }
 
+/* ============================================================
+   CSS CUSTOM PROPERTIES (light → dark overrides)
+   ============================================================ */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.75rem;
+
+  /* Light theme (used as fallback; app defaults to dark) */
+  --background:         oklch(0.98 0.004 270);
+  --foreground:         oklch(0.13 0.03 285);
+  --card:               oklch(1 0 0);
+  --card-foreground:    oklch(0.13 0.03 285);
+  --popover:            oklch(1 0 0);
+  --popover-foreground: oklch(0.13 0.03 285);
+  --primary:            oklch(0.55 0.22 295);
+  --primary-foreground: oklch(0.98 0.004 270);
+  --secondary:          oklch(0.94 0.01 270);
+  --secondary-foreground: oklch(0.13 0.03 285);
+  --muted:              oklch(0.94 0.01 270);
+  --muted-foreground:   oklch(0.45 0.05 270);
+  --accent:             oklch(0.80 0.10 75);
+  --accent-foreground:  oklch(0.13 0.03 285);
+  --destructive:        oklch(0.577 0.245 27.325);
+  --border:             oklch(0.88 0.015 270);
+  --input:              oklch(0.88 0.015 270);
+  --ring:               oklch(0.55 0.22 295);
+  --chart-1:            oklch(0.68 0.22 302);
+  --chart-2:            oklch(0.87 0.14 197);
+  --chart-3:            oklch(0.75 0.12 75);
+  --chart-4:            oklch(0.60 0.18 280);
+  --chart-5:            oklch(0.50 0.15 260);
+  --sidebar:            oklch(0.95 0.01 270);
+  --sidebar-foreground: oklch(0.13 0.03 285);
+  --sidebar-primary:    oklch(0.55 0.22 295);
+  --sidebar-primary-foreground: oklch(0.98 0.004 270);
+  --sidebar-accent:     oklch(0.88 0.015 270);
+  --sidebar-accent-foreground: oklch(0.13 0.03 285);
+  --sidebar-border:     oklch(0.88 0.015 270);
+  --sidebar-ring:       oklch(0.55 0.22 295);
 }
 
+/* ── Dark / Cosmic theme ────────────────────────────────── */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Deep indigo background (#1a0f2e ≈ oklch 0.14 0.06 290) */
+  --background:         oklch(0.14 0.06 290);
+  --foreground:         oklch(0.93 0.02 260);
+
+  /* Cards: slightly lighter than background */
+  --card:               oklch(0.18 0.07 285);
+  --card-foreground:    oklch(0.93 0.02 260);
+
+  --popover:            oklch(0.18 0.07 285);
+  --popover-foreground: oklch(0.93 0.02 260);
+
+  /* Primary: cosmic purple (#c084fc) */
+  --primary:            oklch(0.68 0.22 302);
+  --primary-foreground: oklch(0.14 0.06 290);
+
+  /* Secondary: deep cosmic surface */
+  --secondary:            oklch(0.22 0.07 285);
+  --secondary-foreground: oklch(0.93 0.02 260);
+
+  --muted:              oklch(0.22 0.07 285);
+  --muted-foreground:   oklch(0.58 0.06 270);
+
+  /* Accent: cosmic gold (#d4af77) */
+  --accent:             oklch(0.75 0.12 75);
+  --accent-foreground:  oklch(0.14 0.06 290);
+
+  --destructive:        oklch(0.704 0.191 22.216);
+  --border:             oklch(1 0 0 / 7%);
+  --input:              oklch(1 0 0 / 10%);
+  --ring:               oklch(0.68 0.22 302);
+
+  /* Charts: cosmic palette */
+  --chart-1:            oklch(0.68 0.22 302);   /* purple */
+  --chart-2:            oklch(0.87 0.14 197);   /* teal   */
+  --chart-3:            oklch(0.75 0.12 75);    /* gold   */
+  --chart-4:            oklch(0.55 0.18 280);
+  --chart-5:            oklch(0.45 0.14 260);
+
+  /* Sidebar */
+  --sidebar:            oklch(0.12 0.06 290);
+  --sidebar-foreground: oklch(0.93 0.02 260);
+  --sidebar-primary:    oklch(0.68 0.22 302);
+  --sidebar-primary-foreground: oklch(0.93 0.02 260);
+  --sidebar-accent:     oklch(0.22 0.07 285);
+  --sidebar-accent-foreground:  oklch(0.93 0.02 260);
+  --sidebar-border:     oklch(1 0 0 / 5%);
+  --sidebar-ring:       oklch(0.68 0.22 302);
 }
 
+/* ============================================================
+   KEYFRAME ANIMATIONS
+   ============================================================ */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; transform: scale(0.95); }
+  50%       { opacity: 1;    transform: scale(1.15); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px)   rotate(0deg); }
+  33%      { transform: translateY(-14px) rotate(1.2deg); }
+  66%      { transform: translateY(-7px)  rotate(-0.6deg); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 16px oklch(0.68 0.22 302 / 25%),
+      0 0 32px oklch(0.68 0.22 302 / 10%);
+  }
+  50% {
+    box-shadow:
+      0 0 28px oklch(0.68 0.22 302 / 55%),
+      0 0 56px oklch(0.68 0.22 302 / 20%);
+  }
+}
+
+@keyframes cosmic-fade-in {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes star-pulse {
+  0%, 100% { opacity: 0.25; }
+  50%      { opacity: 0.85; }
+}
+
+@keyframes nebula-drift {
+  0%   { transform: translateX(0)    translateY(0)    rotate(0deg); }
+  33%  { transform: translateX(8px)  translateY(-6px) rotate(1deg); }
+  66%  { transform: translateX(-5px) translateY(4px)  rotate(-0.5deg); }
+  100% { transform: translateX(0)    translateY(0)    rotate(0deg); }
+}
+
+/* ============================================================
+   BASE LAYER
+   ============================================================ */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
+
   html {
-    @apply font-sans;
+    /* Force dark color-scheme so scrollbars & system UI match */
+    color-scheme: dark;
   }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    /* Multi-layer ambient nebula glow */
+    background-image:
+      radial-gradient(ellipse 80% 60% at 20% 45%, oklch(0.25 0.13 290 / 40%) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 50% at 80% 20%, oklch(0.22 0.11 270 / 30%) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 40% at 55% 85%, oklch(0.20 0.09 305 / 22%) 0%, transparent 50%);
+    min-height: 100dvh;
+  }
+
+  /* Styled scrollbar */
+  ::-webkit-scrollbar       { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0.68 0.22 302 / 25%);
+    border-radius: 3px;
+    transition: background 0.2s;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: oklch(0.68 0.22 302 / 55%); }
+
+  /* Selection color */
+  ::selection {
+    background-color: oklch(0.68 0.22 302 / 30%);
+    color: oklch(0.95 0.02 260);
+  }
+}
+
+/* ============================================================
+   COSMIC UTILITY CLASSES
+   ============================================================ */
+
+/* Gradient shimmer text */
+.text-gradient-gold {
+  background: linear-gradient(120deg, #b8935a, #d4af77, #e8cb9a, #d4af77, #b8935a);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 5s linear infinite;
+}
+
+.text-gradient-cosmic {
+  background: linear-gradient(120deg, #7c3aed, #c084fc, #67e8f9, #c084fc, #7c3aed);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+
+/* Glass-morphism surface */
+.glass-card {
+  background: oklch(1 0 0 / 4%);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid oklch(1 0 0 / 8%);
+}
+
+.glass-card-hover {
+  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.glass-card-hover:hover {
+  background: oklch(1 0 0 / 7%);
+  border-color: oklch(0.68 0.22 302 / 28%);
+  box-shadow: 0 8px 32px oklch(0.68 0.22 302 / 14%);
+}
+
+/* Glow helpers */
+.glow-purple { box-shadow: 0 0 22px oklch(0.68 0.22 302 / 40%); }
+.glow-teal   { box-shadow: 0 0 22px oklch(0.87 0.14 197 / 40%); }
+.glow-gold   { box-shadow: 0 0 22px oklch(0.75 0.12 75  / 40%); }
+
+/* Script / display font */
+.font-script {
+  font-family: var(--font-playfair), "Georgia", serif;
+  font-style: italic;
+}
+
+/* Cosmic gradients */
+.bg-cosmic {
+  background: linear-gradient(135deg, #1a0f2e 0%, #0f172a 100%);
+}
+.bg-cosmic-radial {
+  background: radial-gradient(ellipse at center top, #2d1f4f 0%, #1a0f2e 40%, #0f172a 100%);
+}
+
+/* Divider */
+.divider-cosmic {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, oklch(0.68 0.22 302 / 35%), transparent);
+}
+
+/* Frosted input look */
+.input-cosmic {
+  background: oklch(1 0 0 / 5%);
+  border: 1px solid oklch(1 0 0 / 10%);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.input-cosmic:focus {
+  border-color: oklch(0.68 0.22 302 / 50%);
+  box-shadow: 0 0 0 3px oklch(0.68 0.22 302 / 12%);
+  outline: none;
+}
+
+select.input-cosmic {
+  color: oklch(0.93 0.02 260);
+  background-color: oklch(0.18 0.07 285 / 80%);
+  appearance: none;
+  -webkit-appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, oklch(0.75 0.12 75) 50%),
+    linear-gradient(135deg, oklch(0.75 0.12 75) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) calc(50% - 2px),
+    calc(100% - 12px) calc(50% - 2px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+select.input-cosmic option {
+  background-color: #1a0f2e;
+  color: oklch(0.93 0.02 260);
+}
+
+select.input-cosmic option:checked {
+  background-color: #2d1f4f;
+  color: oklch(0.95 0.02 260);
 }
