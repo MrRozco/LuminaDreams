@@ -81,6 +81,7 @@ export const RATE_LIMITS = {
   signupPerEmailPerDay: 3,
   loginPerIpPerHour: 30,
   magicLinkPerIpPerHour: 20,
+  passwordResetPerIpPerHour: 10,
   aiInterpretPerIpPerHour: 24,
   aiImagePerIpPerHour: 12,
   aiVideoPerIpPerHour: 8,

@@ -5,6 +5,7 @@ import {
 } from "@/lib/actions/billing";
 import { normalizeTier } from "@/lib/billing/plans";
 import { updateProfileAction } from "@/lib/actions/profile";
+import { updatePasswordFromSettingsAction } from "@/lib/actions/auth";
 import { createClient } from "@/lib/supabase/server";
 
 interface SettingsPageProps {
@@ -101,6 +102,39 @@ export default async function SettingsPage({ searchParams }: SettingsPageProps) 
           </div>
 
           <SubmitButton pendingText="Saving settings...">Save settings</SubmitButton>
+        </form>
+      </section>
+
+      <section className="glass-card rounded-2xl border border-white/10 p-6">
+        <h2 className="text-xl font-semibold text-foreground">Password</h2>
+        <p className="mt-1 text-sm text-foreground/65">Change your account password.</p>
+
+        <form action={updatePasswordFromSettingsAction} className="mt-5 space-y-4">
+          <div className="space-y-2">
+            <label htmlFor="password" className="text-sm font-medium text-foreground/90">New password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              required
+              autoComplete="new-password"
+              className="input-cosmic h-11 w-full rounded-lg px-3 text-sm"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="confirmPassword" className="text-sm font-medium text-foreground/90">Confirm new password</label>
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              required
+              autoComplete="new-password"
+              className="input-cosmic h-11 w-full rounded-lg px-3 text-sm"
+            />
+          </div>
+
+          <SubmitButton pendingText="Updating password...">Update password</SubmitButton>
         </form>
       </section>
 

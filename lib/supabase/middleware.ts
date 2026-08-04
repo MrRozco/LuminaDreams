@@ -22,7 +22,15 @@ import { NextResponse, type NextRequest } from "next/server";
 import type { Database } from "@/types/database";
 
 /** Routes that are accessible without authentication */
-const PUBLIC_ROUTES = ["/", "/auth/login", "/auth/signup", "/auth/callback", "/auth/verify"];
+const PUBLIC_ROUTES = [
+  "/",
+  "/auth/login",
+  "/auth/signup",
+  "/auth/callback",
+  "/auth/verify",
+  "/auth/forgot-password",
+  "/auth/reset-password",
+];
 
 /** Route prefixes that are always public (static assets, API health) */
 const PUBLIC_PREFIXES = ["/api/health", "/api/stripe/webhook"];
@@ -35,7 +43,7 @@ function isPublicRoute(pathname: string): boolean {
 
 function isAuthRoute(pathname: string): boolean {
   // Keep callback/verify accessible so auth code exchanges can complete.
-  if (pathname === "/auth/callback" || pathname === "/auth/verify") {
+  if (pathname === "/auth/callback" || pathname === "/auth/verify" || pathname === "/auth/reset-password") {
     return false;
   }
 

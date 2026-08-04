@@ -49,6 +49,11 @@ export default async function LoginPage({
           autoComplete="current-password"
         />
         <TurnstileField />
+        <div className="text-right">
+          <Link href="/auth/forgot-password" className="text-xs text-cosmic-teal hover:text-cosmic-gold">
+            Forgot password?
+          </Link>
+        </div>
         <SubmitButton pendingText="Signing in...">Sign in with password</SubmitButton>
       </form>
 

@@ -368,3 +368,51 @@ export async function generateDreamVideoAction(dreamId: string) {
   revalidatePath(`/dreams/${dreamId}`);
   redirect(`/dreams/${dreamId}?success=${encodeURIComponent("Video generated")}`);
 }
+
+export async function deleteDreamImageAction(dreamId: string, imageId: string) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    redirect("/auth/login");
+  }
+
+  const { data: image, error: imageError } = await supabase
+    .from("dream_images")
+    .select("id, url, storage_path")
+    .eq("id", imageId)
+    .eq("dream_id", dreamId)
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (imageError || !image) {
+    redirect(`/dreams/${dreamId}/edit?error=${encodeURIComponent("Image not found")}`);
+  }
+
+  const storagePath = image.storage_path ?? inferStoragePathFromLegacyUrl(image.url, IMAGE_BUCKET);
+  if (storagePath) {
+    const { error: removeStorageError } = await supabase.storage.from(IMAGE_BUCKET).remove([storagePath]);
+    if (removeStorageError) {
+      redirect(`/dreams/${dreamId}/edit?error=${encodeURIComponent(removeStorageError.message)}`);
+    }
+  }
+
+  const { error: deleteError } = await supabase
+    .from("dream_images")
+    .delete()
+    .eq("id", image.id)
+    .eq("dream_id", dreamId)
+    .eq("user_id", user.id);
+
+  if (deleteError) {
+    redirect(`/dreams/${dreamId}/edit?error=${encodeURIComponent(deleteError.message)}`);
+  }
+
+  revalidatePath(`/dreams/${dreamId}`);
+  revalidatePath(`/dreams/${dreamId}/edit`);
+  revalidatePath("/creations");
+  redirect(`/dreams/${dreamId}/edit?success=${encodeURIComponent("Image deleted")}`);
+}

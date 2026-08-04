@@ -6,6 +6,7 @@ import { RATE_LIMITS } from "@/lib/constants";
 import { enforceRateLimit, getClientIpAddress } from "@/lib/security/abuse";
 import { verifyTurnstileToken } from "@/lib/security/captcha";
 import { isDisposableEmail } from "@/lib/security/disposable-email";
+import { getUserFriendlyAuthErrorMessage } from "@/lib/auth/error-messages";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 
@@ -14,6 +15,15 @@ const passwordSchema = z
   .string()
   .min(8, "Password must be at least 8 characters.")
   .max(128, "Password is too long.");
+const passwordUpdateSchema = z
+  .object({
+    password: passwordSchema,
+    confirmPassword: z.string(),
+  })
+  .refine((v) => v.password === v.confirmPassword, {
+    message: "Passwords do not match.",
+    path: ["confirmPassword"],
+  });
 const displayNameSchema = z.string().trim().min(2).max(80).optional();
 
 /** Only allow same-origin relative paths to prevent open-redirect attacks. */
@@ -23,6 +33,14 @@ function sanitizeRedirectTo(raw: string): string {
     return raw;
   }
   return "/dashboard";
+}
+
+function sanitizeAppPath(raw: string, fallback: string): string {
+  if (raw.startsWith("/") && !raw.startsWith("//")) {
+    return raw;
+  }
+
+  return fallback;
 }
 
 function getAppUrl() {
@@ -97,7 +115,7 @@ export async function signUpWithPassword(formData: FormData) {
   });
 
   if (error) {
-    redirect("/auth/signup?error=" + toSearch(error.message));
+    redirect("/auth/signup?error=" + toSearch(getUserFriendlyAuthErrorMessage(error, "signup")));
   }
 
   redirect(`/auth/verify?email=${toSearch(emailResult.data)}`);
@@ -143,7 +161,7 @@ export async function signInWithPassword(formData: FormData) {
   });
 
   if (error) {
-    redirect("/auth/login?error=" + toSearch(error.message));
+    redirect("/auth/login?error=" + toSearch(getUserFriendlyAuthErrorMessage(error, "signin")));
   }
 
   const {
@@ -216,7 +234,7 @@ export async function signInWithMagicLink(formData: FormData) {
   });
 
   if (error) {
-    redirect("/auth/login?error=" + toSearch(error.message));
+    redirect("/auth/login?error=" + toSearch(getUserFriendlyAuthErrorMessage(error, "magic_link")));
   }
 
   redirect(`/auth/verify?email=${toSearch(emailResult.data)}&mode=magic`);
@@ -226,4 +244,105 @@ export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
   redirect("/");
+}
+
+export async function requestPasswordResetAction(formData: FormData) {
+  const emailInput = getString(formData, "email");
+  const emailResult = emailSchema.safeParse(emailInput);
+
+  if (!emailResult.success) {
+    redirect("/auth/login?error=" + toSearch("Enter a valid email address."));
+  }
+
+  const ip = await getClientIpAddress();
+  const captchaToken = getString(formData, "captchaToken");
+  const captchaOk = await verifyTurnstileToken({ token: captchaToken, remoteIp: ip });
+  if (!captchaOk) {
+    redirect("/auth/login?error=" + toSearch("CAPTCHA verification failed. Please try again."));
+  }
+
+  try {
+    await enforceRateLimit({
+      eventType: "password_reset_attempt",
+      scopeType: "ip",
+      scopeKey: ip,
+      maxEvents: RATE_LIMITS.passwordResetPerIpPerHour,
+      windowMinutes: 60,
+    });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "Too many password reset requests.";
+    redirect("/auth/login?error=" + toSearch(msg));
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(emailResult.data, {
+    redirectTo: `${getAppUrl()}/auth/callback?next=${encodeURIComponent("/auth/reset-password")}`,
+  });
+
+  if (error) {
+    redirect("/auth/login?error=" + toSearch(getUserFriendlyAuthErrorMessage(error, "password_reset")));
+  }
+
+  redirect(
+    "/auth/login?success=" +
+      toSearch("If that email exists, we sent a password reset link. Check your inbox.")
+  );
+}
+
+export async function updatePasswordFromSettingsAction(formData: FormData) {
+  const parsed = passwordUpdateSchema.safeParse({
+    password: getString(formData, "password"),
+    confirmPassword: getString(formData, "confirmPassword"),
+  });
+
+  if (!parsed.success) {
+    redirect(`/settings?error=${toSearch(parsed.error.issues[0]?.message ?? "Invalid password values")}`);
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    redirect("/auth/login");
+  }
+
+  const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
+  if (error) {
+    redirect(`/settings?error=${toSearch(getUserFriendlyAuthErrorMessage(error, "settings_password"))}`);
+  }
+
+  redirect("/settings?success=" + toSearch("Password updated successfully."));
+}
+
+export async function updatePasswordFromRecoveryAction(formData: FormData) {
+  const parsed = passwordUpdateSchema.safeParse({
+    password: getString(formData, "password"),
+    confirmPassword: getString(formData, "confirmPassword"),
+  });
+  const next = sanitizeAppPath(getString(formData, "next"), "/auth/login");
+
+  if (!parsed.success) {
+    redirect(`${next}?error=${toSearch(parsed.error.issues[0]?.message ?? "Invalid password values")}`);
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    redirect("/auth/login?error=" + toSearch("Your reset session expired. Request a new reset link."));
+  }
+
+  const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
+  if (error) {
+    redirect(`${next}?error=${toSearch(getUserFriendlyAuthErrorMessage(error, "password_reset"))}`);
+  }
+
+  await supabase.auth.signOut();
+  redirect("/auth/login?success=" + toSearch("Password reset complete. Sign in with your new password."));
 }

@@ -6,6 +6,7 @@ export type AbuseEventType =
   | "signup_attempt"
   | "signin_attempt"
   | "magic_link_attempt"
+  | "password_reset_attempt"
   | "interpretation"
   | "image_generation"
   | "video_generation"
