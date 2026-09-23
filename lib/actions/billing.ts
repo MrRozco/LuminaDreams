@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import type Stripe from "stripe";
 import { APP_URL } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -12,6 +13,15 @@ import {
   type MembershipTier,
 } from "@/lib/billing/plans";
 import { getStripeServerClient } from "@/lib/stripe/server";
+
+function isStripeMissingResourceError(err: unknown): boolean {
+  return (
+    typeof err === "object" &&
+    err !== null &&
+    "code" in err &&
+    (err as { code?: string }).code === "resource_missing"
+  );
+}
 
 const checkoutSchema = z.object({
   tier: z.enum(["essential", "pro"]),
@@ -166,7 +176,14 @@ export async function switchMembershipTierAction(formData: FormData) {
 
   if (targetTier === "free") {
     if (profile.stripe_subscription_id) {
-      await stripe.subscriptions.cancel(profile.stripe_subscription_id);
+      try {
+        await stripe.subscriptions.cancel(profile.stripe_subscription_id);
+      } catch (err) {
+        // Subscription may already be gone in Stripe; proceed to clear it locally either way.
+        if (!isStripeMissingResourceError(err)) {
+          redirect(`/settings?error=${toSearch(err instanceof Error ? err.message : "Could not cancel subscription")}`);
+        }
+      }
     }
 
     const { error: updateError } = await admin
@@ -194,8 +211,26 @@ export async function switchMembershipTierAction(formData: FormData) {
     await createCheckoutAndRedirect(user.id, user.email ?? null, targetTier, interval, "/settings");
   }
 
-  const subscription = await stripe.subscriptions.retrieve(profile.stripe_subscription_id!);
+  let subscription: Stripe.Subscription;
+  try {
+    subscription = await stripe.subscriptions.retrieve(profile.stripe_subscription_id!);
+  } catch (err) {
+    if (!isStripeMissingResourceError(err)) {
+      redirect(`/settings?error=${toSearch(err instanceof Error ? err.message : "Could not load subscription")}`);
+    }
+
+    // Stale subscription id — clear it and start a fresh checkout instead.
+    await admin
+      .from("profiles")
+      .update({ stripe_subscription_id: null, stripe_price_id: null })
+      .eq("id", user.id);
+
+    await createCheckoutAndRedirect(user.id, user.email ?? null, targetTier, interval, "/settings");
+    return;
+  }
+
   const firstItem = subscription.items.data[0];
+
 
   if (!firstItem?.id) {
     redirect(`/settings?error=${toSearch("Could not locate current subscription item")}`);
