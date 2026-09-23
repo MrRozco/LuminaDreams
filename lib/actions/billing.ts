@@ -71,7 +71,17 @@ async function ensureStripeCustomer(userId: string, email: string | null) {
   }
 
   if (profile?.stripe_customer_id) {
-    return profile.stripe_customer_id;
+    // Stored id may belong to a different Stripe mode (e.g. test-mode leftover); verify it still resolves.
+    try {
+      const existing = await stripe.customers.retrieve(profile.stripe_customer_id);
+      if (!existing.deleted) {
+        return profile.stripe_customer_id;
+      }
+    } catch (err) {
+      if (!isStripeMissingResourceError(err)) {
+        throw err;
+      }
+    }
   }
 
   const customer = await stripe.customers.create({
@@ -90,6 +100,7 @@ async function ensureStripeCustomer(userId: string, email: string | null) {
 
   return customer.id;
 }
+
 
 async function createCheckoutAndRedirect(
   userId: string,
